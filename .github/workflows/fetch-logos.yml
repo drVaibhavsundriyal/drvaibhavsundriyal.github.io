@@ -30,11 +30,22 @@ jobs:
           get ainu.png         $M/uploads/2025/01/Logo-AINU-1.png
           get iihmr.png        https://www.iihmrdelhi.edu.in/main-assets/images/iihmr-logo-new-old.png
           get sharda.png       https://www.sharda.ac.in/attachments/site_logo/logo111.png
+          get medicamen.png    https://www.medicamen.com/public/uploads/logo.png
+          get kailash.png      https://www.kailashhealthcare.com/Content/NewWebsite/Images/logo1.png
           ls -la assets/logos
+      - name: Download background videos
+        run: |
+          mkdir -p assets/media
+          curl -fsSL -o assets/media/hero.mp4  https://assets.mixkit.co/videos/31774/31774-720.mp4
+          curl -fsSL -o assets/media/vitals.mp4 https://assets.mixkit.co/videos/46368/46368-720.mp4
+          which ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+          ffmpeg -y -loglevel error -ss 2 -i assets/media/hero.mp4 -frames:v 1 -q:v 4 assets/media/hero.jpg
+          ffmpeg -y -loglevel error -ss 2 -i assets/media/vitals.mp4 -frames:v 1 -q:v 4 assets/media/vitals.jpg
+          ls -la assets/media
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/logos
-          git diff --cached --quiet || git commit -m "Add organisation logos"
+          git add assets/logos assets/media
+          git diff --cached --quiet || git commit -m "Add logos and background media"
           git push
