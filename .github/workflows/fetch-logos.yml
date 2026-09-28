@@ -1,0 +1,40 @@
+name: Fetch logos
+on:
+  push:
+    paths: [".github/workflows/fetch-logos.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  logos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download logos
+        run: |
+          mkdir -p assets/logos
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/128 Safari/537.36"
+          get() { curl -fsSL -A "$UA" -o "assets/logos/$1" "$2" || echo "FAILED $1"; }
+          M=https://www.myhealthcare.life/wp-content
+          get kloudrac.png     https://www.kloudrac.com/assets/img/logo/logo.png
+          get max.svg          https://www.maxhealthcare.in/img/brandLogoNew.svg
+          get myhealthcare.svg $M/themes/myhealthcarelife/assets/images/logo.svg
+          get karkinos.png     https://www.karkinos.in/wp-content/uploads/2025/06/Karkinos-Logo-R-1-1-1.png
+          get fortis.png       https://www.fortishealthcare.com/themes/custom/fortis/logo.png
+          get sakra.png        $M/uploads/2024/10/sakra-hospital.png
+          get rubyhall.png     $M/uploads/2024/10/ruby-clinic.png
+          get reliance.png     $M/uploads/2024/10/rfh-logo.png
+          get ckbirla.png      $M/uploads/2024/10/ckbbmb.png
+          get paras.png        $M/uploads/2024/10/paras-health.png
+          get sparsh.png       $M/uploads/2024/10/sparsh-hospital.png
+          get ainu.png         $M/uploads/2025/01/Logo-AINU-1.png
+          get iihmr.png        https://www.iihmrdelhi.edu.in/main-assets/images/iihmr-logo-new-old.png
+          get sharda.png       https://www.sharda.ac.in/attachments/site_logo/logo111.png
+          ls -la assets/logos
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/logos
+          git diff --cached --quiet || git commit -m "Add organisation logos"
+          git push
