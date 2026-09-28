@@ -17,10 +17,10 @@ jobs:
           get() { curl -fsSL -A "$UA" -o "assets/logos/$1" "$2" || echo "FAILED $1"; }
           M=https://www.myhealthcare.life/wp-content
           get kloudrac.png     https://www.kloudrac.com/assets/img/logo/logo.png
-          get max.svg          https://www.maxhealthcare.in/img/brandLogoNew.svg
+          get max.png          $M/uploads/2024/10/MAX-1.png
           get myhealthcare.svg $M/themes/myhealthcarelife/assets/images/logo.svg
           get karkinos.png     https://www.karkinos.in/wp-content/uploads/2025/06/Karkinos-Logo-R-1-1-1.png
-          get fortis.png       https://www.fortishealthcare.com/themes/custom/fortis/logo.png
+          get fortis.png       $M/uploads/2024/10/Fortis-2.png
           get sakra.png        $M/uploads/2024/10/sakra-hospital.png
           get rubyhall.png     $M/uploads/2024/10/ruby-clinic.png
           get reliance.png     $M/uploads/2024/10/rfh-logo.png
